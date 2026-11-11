@@ -163,3 +163,24 @@ const FORM_EMAIL = "mj@monetizedbrandbuilder.com";
 
   render();
 })();
+
+// Count up numbers when they scroll into view
+(function () {
+  const els = document.querySelectorAll("[data-count]");
+  if (!els.length || !("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const run = (el) => {
+    const target = parseFloat(el.dataset.count), dec = parseInt(el.dataset.dec || "0", 10), suffix = el.dataset.suffix || "";
+    const t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min(1, (t - t0) / 1600);
+      el.textContent = (target * (1 - Math.pow(1 - p, 3))).toFixed(dec) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+  }, { threshold: 0.4 });
+  els.forEach((el) => { el.textContent = (0).toFixed(parseInt(el.dataset.dec || "0", 10)) + (el.dataset.suffix || ""); io.observe(el); });
+})();
