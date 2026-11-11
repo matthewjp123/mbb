@@ -1,6 +1,6 @@
 // Monetized Brand Builder: application form
-// Every application is emailed to this address through FormSubmit (formsubmit.co).
-const FORM_EMAIL = "mj@monetizedbrandbuilder.com";
+// Every application is emailed through Web3Forms (web3forms.com) to the address tied to this access key.
+const WEB3FORMS_KEY = "fcacf55f-1c8a-41a4-aa52-37b538bd0b9c";
 
 (function () {
   const form = document.getElementById("apply-form");
@@ -115,24 +115,24 @@ const FORM_EMAIL = "mj@monetizedbrandbuilder.com";
     // Spam filter: bots fill the hidden field or finish the whole form in seconds.
     if ($("#f-website").value || Date.now() - startedAt < 4000) return;
     const a = state.answers;
+    const name = $("#f-name").value.trim();
     const payload = {
-      _subject: status === "booked" ? "New MBB call booked: " + $("#f-name").value.trim() : "New MBB application (not a fit): " + $("#f-name").value.trim(),
-      _template: "table",
-      _captcha: "false",
+      access_key: WEB3FORMS_KEY,
+      subject: status === "booked" ? "New MBB call booked: " + name : "New MBB application (not a fit): " + name,
+      from_name: "Monetized Brand Builder",
+      botcheck: "",
       Status: status === "booked" ? "Booked a call" : "Disqualified",
-      Name: $("#f-name").value.trim(),
-      Email: $("#f-email").value.trim(),
+      Name: name,
+      email: $("#f-email").value.trim(),
       Handle: $("#f-handle").value.trim(),
       "Describes them": a.type || "",
       "Audience size": a.size || "",
       "90 day goal": a.goal || "",
       "Learning style": a.learn || "",
       "Start date": a.ready || "",
-      "Booked time": state.day && state.time ? state.day + " at " + state.time + " ET" : "None",
-      _replyto: $("#f-email").value.trim(),
-      _honey: ""
+      "Booked time": state.day && state.time ? state.day + " at " + state.time + " ET" : "None"
     };
-    fetch("https://formsubmit.co/ajax/" + FORM_EMAIL, {
+    fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify(payload)
