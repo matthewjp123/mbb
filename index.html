@@ -264,7 +264,7 @@ Hey, I'm Matt James
 <div style="width: 100%; max-width: 760px; background: #F7F4EE; border: 1px solid #D9D2C5; border-radius: 28px; padding: clamp(24px, 4vw, 48px); box-shadow: 0 30px 70px rgba(18,18,18,.08); display: flex; flex-direction: column; gap: 28px">
 
 <form id="apply-form" novalidate style="display: flex; flex-direction: column; gap: 28px">
-<div aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden"><label for="f-website">Leave this empty</label><input id="f-website" name="_honey" type="text" tabindex="-1" autocomplete="off"></div>
+<div aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden"><label for="f-website">Leave this empty</label><input id="f-website" name="mbb_hp_field" type="text" tabindex="-1" autocomplete="off"></div>
 <div id="progress" style="display: flex; flex-direction: column; gap: 10px">
 <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; color: #4A4741"><span>Step <span id="step-num">1</span> of 6</span><button type="button" id="back-btn" hidden style="background: none; border: 0; padding: 0; font: inherit; color: #121212; text-decoration: underline; cursor: pointer">Back</button></div>
 <div id="segs" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px"><div class="seg on"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div></div>
@@ -296,22 +296,25 @@ Hey, I'm Matt James
 <div id="q-options" style="display: flex; flex-direction: column; gap: 12px"></div>
 </div>
 
-<div data-screen="book" hidden style="display: flex; flex-direction: column; gap: 24px">
+<div data-screen="book" hidden style="display: flex; flex-direction: column; gap: 22px">
 <div style="display: flex; flex-direction: column; gap: 8px">
 <span style="align-self: flex-start; background: var(--accent); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700">You qualify</span>
-<h3 style="margin: 0; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 28px; line-height: 1.2">Nice, <span class="first-name"></span>. Pick a time for your strategy call.</h3>
-<p style="margin: 0; color: #4A4741">45 minutes on Zoom. Times shown in Eastern.</p>
+<h3 style="margin: 0; font-family: Montserrat, sans-serif; font-weight: 700; font-size: 28px; line-height: 1.2">Nice, <span class="first-name"></span>. Grab a time for your strategy call.</h3>
+<p style="margin: 0; color: #4A4741">Pick any open slot on my calendar. Google sends the invite with the call link straight to your inbox.</p>
 </div>
-<div style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 14px; font-weight: 600">Day</span><div id="days" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 10px"></div></div>
-<div style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 14px; font-weight: 600">Time</span><div id="times" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px"></div></div>
-<button type="button" id="confirm-btn" class="btn" disabled style="align-self: flex-start; background: #121212; color: #F7F4EE; border: 0; padding: 17px 30px; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer">Confirm my call</button>
+<div id="cal-embed" hidden style="border-radius: 18px; overflow: hidden; border: 1px solid #D9D2C5; background: #FFFFFF"></div>
+<a id="cal-open" class="btn" href="#" target="_blank" rel="noopener" style="align-self: flex-start; background: #121212; color: #F7F4EE; text-decoration: none; padding: 17px 30px; border-radius: 999px; font-weight: 600">Open my calendar</a>
+<div id="cal-done-wrap" hidden style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #D9D2C5; padding-top: 18px">
+<p style="margin: 0; color: #4A4741">Booked your slot?</p>
+<button type="button" id="cal-done" class="btn" style="align-self: flex-start; background: var(--accent); color: #121212; border: 0; padding: 15px 26px; border-radius: 999px; font: inherit; font-weight: 700; cursor: pointer">Yes, I'm booked in</button>
+</div>
 </div>
 
 <div data-screen="thanks" hidden style="display: flex; flex-direction: column; gap: 22px">
 <div style="display: flex; flex-direction: column; gap: 8px; text-align: center; align-items: center">
 <span style="width: 56px; height: 56px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"></path></svg></span>
 <h3 style="margin: 0; font-family: Montserrat, sans-serif; font-weight: 800; font-size: 32px; line-height: 1.15">Well done, you're booked in.</h3>
-<p style="margin: 0; color: #4A4741"><span id="booked-label"></span>. A calendar invite is on its way to <span id="booked-email"></span>.</p>
+<p style="margin: 0; color: #4A4741">Your calendar invite is on its way from Google. Check your inbox.</p>
 </div>
 <div style="display: flex; flex-direction: column; gap: 10px">
 <p style="margin: 0; font-weight: 700; text-align: center">Watch this before the call. It shows exactly how we get the results further up this page.</p>
@@ -343,6 +346,7 @@ Hey, I'm Matt James
 <button type="button" id="restart-btn" style="background: transparent; color: #121212; border: 1.5px solid #121212; padding: 15px 25px; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer">Start over</button>
 </div>
 </div>
+<p id="send-error" role="alert" hidden style="margin: 0; padding: 14px 18px; border-radius: 14px; background: #F6E3DF; color: #7A2216; font-weight: 600">Something went wrong sending your application. Please email mj@monetizedbrandbuilder.com and we'll get you booked in.</p>
 </form>
 
 </div>
@@ -366,6 +370,6 @@ Hey, I'm Matt James
 </footer>
 
 </div>
-<script src="script.js" defer></script>
+<script src="script.js?v=6" defer></script>
 </body>
 </html>
