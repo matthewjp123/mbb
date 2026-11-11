@@ -5,7 +5,7 @@ const WEB3FORMS_KEY = "fcacf55f-1c8a-41a4-aa52-37b538bd0b9c";
 const BOOKING_LINK = "https://calendar.app.google/kzdiaFmVCGRtZhWf8";
 // Optional: to show the calendar right on the page, paste the src URL from
 // Google Calendar > your booking page > Share > Website embed > Inline. It ends in ?gv=true
-const BOOKING_EMBED_URL = "";
+const BOOKING_EMBED_URL = "https://calendar.google.com/calendar/appointments/schedules/AcZssZ3NySBbqaWof3uUIz44gEEdftlwWk29PHc4SBq7b3RfXfgeT4-j-KWNkYlyXXA55Ej-tekvd6IM?gv=true";
 
 (function () {
   const form = document.getElementById("apply-form");
@@ -90,7 +90,7 @@ const BOOKING_EMBED_URL = "";
     if (BOOKING_EMBED_URL && !box.firstChild) {
       const f = document.createElement("iframe");
       f.src = BOOKING_EMBED_URL; f.title = "Book a strategy call"; f.loading = "lazy";
-      f.style.cssText = "border:0;width:100%;height:640px;display:block";
+      f.style.cssText = "border:0;width:100%;height:min(720px,80vh);min-height:560px;display:block";
       box.appendChild(f); box.hidden = false;
       $("#cal-open").textContent = "Open in a new tab";
       $("#cal-done-wrap").hidden = false;
